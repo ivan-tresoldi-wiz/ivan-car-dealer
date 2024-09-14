@@ -39,7 +39,7 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
         run: |
           cd dist
-          IMAGE_TAG=$REGISTRY/$REPOSITORY:${COMMIT_SHA}
+          IMAGE_TAG=$REGISTRY/$REPOSITORY:latest
           echo "Building Docker image with tag $IMAGE_TAG"
           docker build -t $IMAGE_TAG .
 
@@ -51,7 +51,7 @@ jobs:
 
       - name: Run Wiz CLI image scan
         id: scan
-        run: sudo -E ./wizcli docker scan -i $REGISTRY/$REPOSITORY:${COMMIT_SHA} --policy ivan-tresoldi-vulnerabilities
+        run: sudo -E ./wizcli docker scan -i $REGISTRY/$REPOSITORY:latest --policy ivan-tresoldi-vulnerabilities
         continue-on-error: false
         env:
           REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
@@ -81,7 +81,7 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
         run: |
           cd dist
-          IMAGE_TAG=$REGISTRY/$REPOSITORY:${COMMIT_SHA}
+          IMAGE_TAG=$REGISTRY/$REPOSITORY:latest
           docker push $IMAGE_TAG
 
       - name: Verify Docker image
@@ -91,7 +91,7 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
         run: |
           REPOSITORY_URI=$REGISTRY/$REPOSITORY
-          IMAGE_TAG=$REPOSITORY_URI:${COMMIT_SHA}
+          IMAGE_TAG=$REPOSITORY_URI:latest
           echo "Pulling Docker image with URI: $IMAGE_TAG"
           docker pull $IMAGE_TAG
       
@@ -102,5 +102,5 @@ jobs:
           REPOSITORY: "ivan-car-dealer"
           COMMIT_SHA: ${{ github.sha }}
         run: |
-          IMAGE_URI=$ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/$REPOSITORY:$COMMIT_SHA
+          IMAGE_URI=$ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/$REPOSITORY:latest
           sudo -E ./wizcli docker tag -i $IMAGE_URI
