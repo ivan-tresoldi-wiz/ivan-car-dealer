@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: car-dealer
+  name: car-dealer-deployment
+  labels:
+    app: car-dealer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: car-dealer
+  template:
+    metadata:
+      labels:
+        app: car-dealer
+    spec:
+      containers:
+      - name: car-dealer
+        image: 766584785463.dkr.ecr.us-east-1.amazonaws.com/ivan-car-dealer:latest
+        ports:
+        - containerPort: 3000
