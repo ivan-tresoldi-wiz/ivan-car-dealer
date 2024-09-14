@@ -89,7 +89,7 @@ function copyData() {
 }
 
 // Copy images with minimal processing to avoid corruption
-function copyImages() {
+async function copyImages() {
   return gulp.src(paths.images.src, { encoding: false })
     .pipe(imagemin())
     .pipe(gulp.dest(paths.images.dest))
