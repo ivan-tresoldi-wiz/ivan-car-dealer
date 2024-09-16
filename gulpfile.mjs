@@ -90,13 +90,17 @@ function copyData() {
 
 // Copy images with minimal processing to avoid corruption
 async function copyImages() {
-  return gulp.src(paths.images.src, { encoding: false })
-    .pipe(imagemin())
+  return gulp.src(paths.images.src)
+    .pipe(imagemin([
+      imagemin.mozjpeg({ quality: 80, progressive: true }),
+      imagemin.optipng({ optimizationLevel: 2 })
+    ]))
     .pipe(gulp.dest(paths.images.dest))
     .on('error', function (err) {
       console.error('Error in copyImages task', err.toString());
     });
 }
+
 
 // Copy Dockerfile
 function copyDockerfile() {
