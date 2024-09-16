@@ -5,6 +5,8 @@ import cleanCSS from 'gulp-clean-css';
 import htmlreplace from 'gulp-html-replace';
 import { exec } from 'child_process';
 import imagemin from 'gulp-imagemin';
+import imageminMozjpeg from 'imagemin-mozjpeg';
+import imageminOptipng from 'imagemin-optipng';
 
 // Define paths
 const paths = {
@@ -92,8 +94,8 @@ function copyData() {
 async function copyImages() {
   return gulp.src(paths.images.src)
     .pipe(imagemin([
-      imagemin.mozjpeg({ quality: 80, progressive: true }),
-      imagemin.optipng({ optimizationLevel: 2 })
+      imageminMozjpeg({ quality: 80, progressive: true }),
+      imageminOptipng({ optimizationLevel: 2 })
     ]))
     .pipe(gulp.dest(paths.images.dest))
     .on('error', function (err) {
