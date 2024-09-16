@@ -4,11 +4,17 @@ FROM node:20-alpine
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
+# Install curl for healthcheck purposes
+RUN apk add --no-cache curl
+
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies (prefer using npm ci for cleaner installs)
+RUN npm ci --only=production
+
+# If you have a build step, run it here
+# RUN npm run build
 
 # Copy the rest of the application code
 COPY . .
